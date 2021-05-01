@@ -1,6 +1,6 @@
 table! {
     users (user_id) {
-        user_id -> Int4,
+        user_id -> Varchar,
         first_name -> Varchar,
         middle_name -> Varchar,
         last_name -> Varchar,
@@ -11,6 +11,6 @@ table! {
         registered_at -> Timestamp,
         last_login -> Timestamp,
         rating -> Int4,
-        profiles -> Text,
+        profile -> Text,
     }
 }
