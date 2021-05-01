@@ -10,14 +10,14 @@ use actix_web::{web,App,HttpRequest,HttpResponse,HttpServer,Error,Responder,midd
 use juniper::http::graphiql::graphiql_source;
 use juniper::http::GraphQLRequest;
 
-
-
 mod db;
-mod grqphal_schema;
-pub mod schema;
+mod schemas;
+// mod grqphal_schema;
+mod schema;
 
 use crate::db::establish_connection;
-use crate::grqphal_schema::{create_schema,Schema,Ctx};
+use crate::schemas::root::{create_schema,Schema,Ctx};
+// use crate::grqphal_schema::{create_schema,Schema,Ctx};
 
 
 async fn playground()-> HttpResponse {
