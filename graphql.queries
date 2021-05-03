@@ -1,0 +1,50 @@
+
+# query{
+#   users{
+#     userId
+#     rating
+#     registeredAt
+#   }
+# }
+
+# query{
+#   user(
+#     userId:"975ea0b7-582c-46cb-879f-9b2d9c2a87ae"){
+#     userId
+#     lastName
+#     firstName
+#     profile
+#     addressId
+#     passwordHash
+#   }
+# }
+
+
+# mutation{
+#   createUser(newUser:{
+#     firstName:"K",
+#     middleName:"",
+#     lastName:"R",
+#     addressId:"123",
+#     email:"1@mail.com",
+#     phone:"45545",
+#     rating:1,
+#   	profile:"Yes",
+#     password:"ok"
+#   }){
+#     userId
+#   }
+# }
+
+
+# mutation{
+#   update(id:"b755eeff-cff9-4de3-9d96-8567c38aae11",
+#   updatedUser:{firstName:"Raushann",addressId:"123334"}
+#   ){
+#     userId
+#     firstName
+#     addressId
+#   }
+# }
+
+
