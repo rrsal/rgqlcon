@@ -2,7 +2,6 @@
 extern crate diesel;
 extern crate dotenv;
 
-
 use std::io;
 use std::sync::Arc;
 use actix_cors::Cors;
@@ -11,12 +10,14 @@ use juniper::http::graphiql::graphiql_source;
 use juniper::http::GraphQLRequest;
 
 mod db;
-mod schemas;
+mod gql;
 // mod grqphal_schema;
 mod schema;
+mod crud;
+mod models;
 
 use crate::db::establish_connection;
-use crate::schemas::root::{create_schema,Schema,Ctx};
+use crate::gql::root::{create_schema,Schema,Ctx};
 // use crate::grqphal_schema::{create_schema,Schema,Ctx};
 
 

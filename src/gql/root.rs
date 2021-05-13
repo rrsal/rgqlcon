@@ -1,7 +1,7 @@
 use juniper::{RootNode,EmptySubscription};
 use crate::db::PgPool;
-use crate::schemas::queries::QueryRoot;
-use crate::schemas::mutations::MutationRoot;
+use crate::gql::queries::QueryRoot;
+use crate::gql::mutations::MutationRoot;
 
 // Arbitrary context data.
 #[derive(Clone)]

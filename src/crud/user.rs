@@ -1,5 +1,5 @@
-use crate::schemas::root::Ctx;
-use crate::schemas::models::user::{Users,UpdateUser,NewUser};
+use crate::gql::root::Ctx;
+use crate::models::user::{Users,UpdateUser,NewUser};
 use diesel::prelude::*;
 use juniper::{FieldResult};
 use chrono::{NaiveDate};

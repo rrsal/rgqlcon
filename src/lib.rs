@@ -1,5 +1,7 @@
 #[macro_use]
 extern crate diesel;
 pub mod db;
-pub mod schemas;
+pub mod gql;
 pub mod schema;
+pub mod crud;
+pub mod models;
