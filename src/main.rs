@@ -22,7 +22,7 @@ use crate::gql::root::{create_schema,Schema,Ctx};
 
 
 async fn playground()-> HttpResponse {
-    let html = graphiql_source("http://127.0.0.1:8082/graphql", None);
+    let html = graphiql_source("/graphql", None);
     HttpResponse::Ok()
     .content_type("text/html; charset=utf-8")
     .body(html)
@@ -78,7 +78,7 @@ async fn main()-> io::Result<()>{
             .route("/",web::get().to(index))
             .route("/{name}",web::get().to(index))
     })
-    .bind(("127.0.0.1",8082))?
+    .bind(("127.0.0.1",8083))?
     .run()
     .await
 }
