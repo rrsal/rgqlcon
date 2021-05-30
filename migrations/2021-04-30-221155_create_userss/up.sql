@@ -52,7 +52,7 @@ CREATE  TABLE products (
 	summary              text  NOT NULL ,
 	sku                  varchar(100)  NOT NULL ,
 	p_type               varchar  NOT NULL ,
-	price                decimal  NOT NULL ,
+	price                float8  NOT NULL ,
 	discount             float8  NOT NULL ,
 	quantity             float8  NOT NULL ,
 	seller_id            varchar  NOT NULL ,

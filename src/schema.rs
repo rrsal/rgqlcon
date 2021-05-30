@@ -133,7 +133,7 @@ table! {
         summary -> Text,
         sku -> Varchar,
         p_type -> Varchar,
-        price -> Numeric,
+        price -> Float8,
         discount -> Float8,
         quantity -> Float8,
         seller_id -> Varchar,
