@@ -16,3 +16,13 @@ diesel setup
 
 #### Build project & run
 
+
+
+#### Adding new schema using diesel
++ Run command `diesel migration generate create_posts`
++ This create two files up.sql and down.sql in `/migrations/create_posts/`
++ Add new changes to `up.sql` .
++ `down.sql` contains reverting changes, in case we want to revert a migration.
++ Run `diesel migration run` to apply `up.sql` the migration.
++ Run `diesel migration redo` to apply `down.sql` the migration.
++ 
