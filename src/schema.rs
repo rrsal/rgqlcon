@@ -13,12 +13,59 @@ table! {
 }
 
 table! {
+    category (category_id) {
+        category_id -> Varchar,
+        title -> Nullable<Varchar>,
+        meta_title -> Nullable<Varchar>,
+        summary -> Nullable<Text>,
+        content -> Nullable<Text>,
+        parent_id -> Varchar,
+    }
+}
+
+table! {
     customer_address (date_from) {
         user_id -> Varchar,
         address_id -> Varchar,
         date_from -> Timestamp,
         date_to -> Timestamp,
         address_type -> Varchar,
+    }
+}
+
+table! {
+    product_category (category_id) {
+        category_id -> Varchar,
+        product_id -> Varchar,
+    }
+}
+
+table! {
+    product_price (date_from) {
+        date_from -> Timestamp,
+        product_id -> Varchar,
+        product_price -> Float8,
+    }
+}
+
+table! {
+    product_review (review_id) {
+        review_id -> Varchar,
+        product_id -> Varchar,
+        parent_id -> Varchar,
+        title -> Nullable<Varchar>,
+        rating -> Nullable<Int4>,
+        description -> Nullable<Text>,
+        created_at -> Timestamp,
+        published -> Nullable<Int4>,
+        published_at -> Timestamp,
+    }
+}
+
+table! {
+    product_tag (tag_id) {
+        tag_id -> Varchar,
+        product_id -> Varchar,
     }
 }
 
@@ -43,6 +90,15 @@ table! {
 }
 
 table! {
+    tag (tag_id) {
+        tag_id -> Varchar,
+        title -> Nullable<Varchar>,
+        meta_title -> Nullable<Varchar>,
+        content -> Nullable<Text>,
+    }
+}
+
+table! {
     users (user_id) {
         user_id -> Varchar,
         first_name -> Varchar,
@@ -61,10 +117,22 @@ table! {
 
 joinable!(customer_address -> address (address_id));
 joinable!(customer_address -> users (user_id));
+joinable!(product_category -> category (category_id));
+joinable!(product_category -> products (product_id));
+joinable!(product_price -> products (product_id));
+joinable!(product_review -> products (product_id));
+joinable!(product_tag -> products (product_id));
+joinable!(product_tag -> tag (tag_id));
 
 allow_tables_to_appear_in_same_query!(
     address,
+    category,
     customer_address,
+    product_category,
+    product_price,
+    product_review,
+    product_tag,
     products,
+    tag,
     users,
 );
