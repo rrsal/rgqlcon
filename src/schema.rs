@@ -62,9 +62,4 @@ table! {
 joinable!(customer_address -> address (address_id));
 joinable!(customer_address -> users (user_id));
 
-allow_tables_to_appear_in_same_query!(
-    address,
-    customer_address,
-    products,
-    users,
-);
+allow_tables_to_appear_in_same_query!(address, customer_address, products, users,);
