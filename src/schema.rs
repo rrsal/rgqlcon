@@ -100,7 +100,7 @@ table! {
     product_price (date_from) {
         date_from -> Timestamp,
         product_id -> Varchar,
-        product_price -> Float8,
+        price -> Float8,
     }
 }
 

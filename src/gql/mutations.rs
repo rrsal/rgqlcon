@@ -13,4 +13,8 @@ impl MutationRoot{
     fn update(ctx:&Ctx,id:String,updated_user:UpdateUser)->FieldResult<Users>{
         user::update(&ctx ,id, updated_user)
     }
+
+    fn deleteUser(ctx: &Ctx, user_id: String) -> FieldResult<Users> {
+        user::delete(&ctx, user_id)
+    }
 }

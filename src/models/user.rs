@@ -37,7 +37,7 @@ pub struct NewUser{
 
 
 #[derive(GraphQLInputObject,AsChangeset)]
-#[graphql(description="New User object")]
+#[graphql(description="Update User object")]
 #[table_name = "users"]
 pub struct UpdateUser{
     pub first_name:Option<String>,

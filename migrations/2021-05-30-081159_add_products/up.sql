@@ -19,8 +19,8 @@ ALTER TABLE product_review ADD CONSTRAINT fk_product_review_products FOREIGN KEY
 CREATE  TABLE product_price ( 
 	date_from            timestamp(0)  NOT NULL,
 	product_id           varchar(64)  NOT NULL ,
-	product_price        float8  NOT NULL ,
-	CONSTRAINT pk_product_price_date_from PRIMARY KEY ( date_from )
+	price        float8  NOT NULL ,
+	CONSTRAINT pk_price_date_from PRIMARY KEY ( date_from )
  );
 ALTER TABLE product_price ADD CONSTRAINT fk_product_price_products FOREIGN KEY ( product_id ) REFERENCES products( product_id );
 
