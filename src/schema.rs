@@ -97,10 +97,11 @@ table! {
 }
 
 table! {
-    product_price (date_from) {
+    product_price (price_id) {
         date_from -> Timestamp,
         product_id -> Varchar,
         price -> Float8,
+        price_id -> Varchar,
     }
 }
 

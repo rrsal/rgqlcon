@@ -1,0 +1,1 @@
+ALTER TABLE product_price RENAME COLUMN product_price TO price;

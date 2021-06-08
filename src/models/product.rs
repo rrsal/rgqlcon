@@ -11,9 +11,9 @@ pub struct Products {
     pub summary: String,
     pub sku: String,
     pub p_type: String,
-    pub price: i32,
-    pub discount: f32,
-    pub quantity: f32,
+    pub price: f64,
+    pub discount: f64,
+    pub quantity: f64,
     pub seller_id: String,
     pub create_at: NaiveDateTime,
     pub updated_at: NaiveDateTime,
@@ -22,7 +22,7 @@ pub struct Products {
     pub category_id: i32,
 }
 
-#[derive(GraphQLInpuutObject)]
+#[derive(GraphQLInputObject)]
 #[graphql(description = "New Product Object")]
 pub struct NewProduct {
     pub title: String,
@@ -31,14 +31,14 @@ pub struct NewProduct {
     pub sku: String,
     pub p_type: String,
     pub price: i32,
-    pub discount: f32,
-    pub quantity: f32,
+    pub discount: f64,
+    pub quantity: f64,
     pub seller_id: String,
     pub other_details: String,
     pub category_id: i32,
 }
 
-#[derive(GraphQLInpuutObject)]
+#[derive(GraphQLInputObject, AsChangeset)]
 #[graphql(description = "Update Product Object")]
 #[table_name = "products"]
 pub struct UpdateProduct {
@@ -47,9 +47,9 @@ pub struct UpdateProduct {
     pub summary: String,
     pub sku: String,
     pub p_type: String,
-    pub price: i32,
-    pub discount: f32,
-    pub quantity: f32,
+    pub price: f64,
+    pub discount: f64,
+    pub quantity: f64,
     pub seller_id: String,
     pub other_details: String,
     pub category_id: i32,
