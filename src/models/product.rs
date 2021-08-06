@@ -30,7 +30,7 @@ pub struct NewProduct {
     pub summary: String,
     pub sku: String,
     pub p_type: String,
-    pub price: i32,
+    pub price: f64,
     pub discount: f64,
     pub quantity: f64,
     pub seller_id: String,

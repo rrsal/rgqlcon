@@ -1,5 +1,6 @@
-use crate::crud::user;
+use crate::crud::{user,product};
 use crate::models::user::{Users,UpdateUser,NewUser};
+use crate::models::product::{Products,NewProduct,UpdateProduct};
 use crate::gql::root::Ctx;
 use juniper::{FieldResult};
 pub struct MutationRoot;
@@ -16,5 +17,9 @@ impl MutationRoot{
 
     fn deleteUser(ctx: &Ctx, user_id: String) -> FieldResult<Users> {
         user::delete(&ctx, user_id)
+    }
+
+    fn create_product(ctx: &Ctx, new_product: NewProduct) -> FieldResult<Products> {
+        product::create_product(&ctx, new_product)
     }
 }

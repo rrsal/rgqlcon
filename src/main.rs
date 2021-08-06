@@ -78,7 +78,7 @@ async fn main()-> io::Result<()>{
             .route("/",web::get().to(index))
             .route("/{name}",web::get().to(index))
     })
-    .bind(("127.0.0.1",8083))?
+    .bind(("127.0.0.1",8084))?
     .run()
     .await
 }
