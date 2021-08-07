@@ -43,9 +43,8 @@ table! {
         category_id -> Varchar,
         title -> Nullable<Varchar>,
         meta_title -> Nullable<Varchar>,
-        summary -> Nullable<Varchar>,
-        content -> Nullable<Varchar>,
-        parent_id -> Varchar,
+        summary -> Nullable<Text>,
+        content -> Nullable<Text>,
     }
 }
 

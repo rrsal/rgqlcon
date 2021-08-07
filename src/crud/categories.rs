@@ -63,3 +63,15 @@ impl CO for Categories {
         Ok(result)
     }
 }
+
+impl Default for Categories{
+    fn default()-> Self{
+        Self{
+            category_id: String::from(""),
+            title: Some(String::from("")),
+            meta_title:Some(String::from("")),
+            content:Some(String::from("")),
+            summary:Some(String::from("")),
+        }
+    }
+}

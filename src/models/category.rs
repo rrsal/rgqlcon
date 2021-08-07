@@ -1,5 +1,4 @@
 use crate::schema::*;
-use chrono::NaiveDateTime;
 use juniper::{GraphQLInputObject, GraphQLObject};
 
 #[derive(Queryable, GraphQLObject, Insertable)]
@@ -10,7 +9,6 @@ pub struct Categories {
     pub meta_title: Option<String>,
     pub summary: Option<String>,
     pub content: Option<String>,
-    pub parent_id: String,
 }
 
 
@@ -21,7 +19,6 @@ pub struct NewCategory {
     pub meta_title: Option<String>,
     pub summary: Option<String>,
     pub content: Option<String>,
-    pub parent_id: String,
 }
 
 
@@ -33,9 +30,10 @@ impl Categories{
             meta_title: new_category.meta_title,
             summary: new_category.summary,
             content: new_category.content,
-            parent_id: new_category.parent_id,
         }
     }
+
+
 }
 
 #[derive(GraphQLInputObject, AsChangeset)]
@@ -46,5 +44,4 @@ pub struct UpdateCategory {
     pub meta_title: String,
     pub summary: String,
     pub content: String,
-    pub parent_id: String,
 }

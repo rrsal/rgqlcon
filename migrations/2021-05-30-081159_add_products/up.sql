@@ -32,13 +32,8 @@ CREATE  TABLE category (
 	meta_title           varchar(100)   ,
 	summary              text   ,
 	content              text   ,
-	parent_id            varchar(64)  NOT NULL ,
-	CONSTRAINT pk_category_category_id PRIMARY KEY ( category_id )
+	parent_id            varchar(64)  NULL ,
  );
-
-ALTER TABLE category ADD CONSTRAINT fk_category_category FOREIGN KEY ( parent_id ) REFERENCES category( category_id );
-
-
 
 
 CREATE  TABLE product_category ( 

@@ -1,6 +1,8 @@
 use crate::crud::{user,product};
 use crate::models::user::{Users,UpdateUser,NewUser};
 use crate::models::product::{Products,NewProduct,UpdateProduct};
+use crate::models::category::{Categories,NewCategory};
+use crate::crud::base::CO;
 use crate::gql::root::Ctx;
 use juniper::{FieldResult};
 pub struct MutationRoot;
@@ -21,5 +23,10 @@ impl MutationRoot{
 
     fn create_product(ctx: &Ctx, new_product: NewProduct) -> FieldResult<Products> {
         product::create_product(&ctx, new_product)
+    }
+
+    fn create_category(ctx:&Ctx, new_categoty:NewCategory) -> FieldResult<Categories> {
+        let category_default = Categories::default();
+        category_default.create(ctx,new_categoty)
     }
 }

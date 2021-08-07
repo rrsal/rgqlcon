@@ -1,37 +1,74 @@
+use crate::crud::base::{getCurrentDate, CO};
 use crate::gql::root::Ctx;
 use crate::models::user::{NewUser, UpdateUser, Users};
 use chrono::NaiveDate;
 use diesel::prelude::*;
 use juniper::FieldResult;
-// use crate::crud::base::CO;
 
+impl CO for Users {
+    type All = Vec<Users>;
+    type Get = FieldResult<Users>;
+    type Update = UpdateUser;
+    type New = NewUser;
 
-// impl CO for Users{
-//     type All=Vec<Users>;
-//     type Get=FieldResult<Users>;
+    fn all(&self, ctx: &Ctx) -> Self::All {
+        use crate::schema::users::dsl::*;
+        let connection = ctx.db.get().unwrap();
+        users
+            .limit(100)
+            .load::<Self>(&connection)
+            .expect("Error loading users")
+    }
 
-//     fn all(&self,ctx: &Ctx) -> Vec<Users> {
-//         use crate::schema::users::dsl::*;
-//         let connection = ctx.db.get().unwrap();
-//         users
-//             .limit(100)
-//             .load::<Self>(&connection)
-//             .expect("Error loading users")
-//     }
-    
-//     fn by_id(&self,ctx: &Ctx, id: String) -> FieldResult<Users> {
-//         use crate::schema::users::dsl::*;
-//         let connection = ctx.db.get().unwrap();
-//         let result_user = users.filter(user_id.eq(id)).first::<Self>(&connection)?;
-//         Ok(result_user)
-//     }
-    
-// }
+    fn by_id(&self, ctx: &Ctx, id: String) -> Self::Get {
+        use crate::schema::users::dsl::*;
+        let connection = ctx.db.get().unwrap();
+        let result = users.filter(user_id.eq(id)).first::<Self>(&connection)?;
+        Ok(result)
+    }
 
+    fn create(&self, ctx: &Ctx, new_data: Self::New) -> Self::Get {
+        use crate::schema::users::dsl::*;
+        let connection = ctx.db.get().unwrap();
+        let id = uuid::Uuid::new_v4().to_string();
+        let hashed = String::from("hashed");
+        let now = getCurrentDate();
+        let new = Users::new(id, hashed, now, now, new_data);
+        let res = diesel::insert_into(users)
+            .values(new)
+            .get_result::<Self>(&connection);
+        match res {
+            Ok(t) => Ok(t),
+            Err(e) => FieldResult::Err(juniper::FieldError::from(e)),
+        }
+    }
+
+    fn update(&self, ctx: &Ctx, id: String, update_data: Self::Update) -> Self::Get {
+        use crate::schema::users::dsl::*;
+        let connection = ctx.db.get().unwrap();
+
+        let result = diesel::update(users)
+            .filter(user_id.eq(id))
+            .set(update_data)
+            .get_result::<Self>(&connection)?;
+        Ok(result)
+    }
+
+    fn delete(&self,ctx: &Ctx, id: String) -> Self::Get{
+        use crate::schema::users::dsl::*;
+        let connection = ctx.db.get().unwrap();
+
+        let result = diesel::delete(users)
+            .filter(user_id.eq(id))
+            .get_result::<Self>(&connection)?;
+        Ok(result)
+    }
+}
 
 pub fn allusers(ctx: &Ctx) -> Vec<Users> {
     use crate::schema::users::dsl::*;
     let connection = ctx.db.get().unwrap();
+    let id = uuid::Uuid::new_v4().to_string();
     users
         .limit(100)
         .load::<Users>(&connection)
