@@ -40,8 +40,8 @@ impl Categories{
 #[graphql(description = "Update Category for product")]
 #[table_name="category"]
 pub struct UpdateCategory {
-    pub title: String,
-    pub meta_title: String,
-    pub summary: String,
-    pub content: String,
+    pub title: Option<String>,
+    pub meta_title: Option<String>,
+    pub summary: Option<String>,
+    pub content: Option<String>,
 }
