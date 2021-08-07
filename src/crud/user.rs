@@ -3,6 +3,31 @@ use crate::models::user::{NewUser, UpdateUser, Users};
 use chrono::NaiveDate;
 use diesel::prelude::*;
 use juniper::FieldResult;
+// use crate::crud::base::CO;
+
+
+// impl CO for Users{
+//     type All=Vec<Users>;
+//     type Get=FieldResult<Users>;
+
+//     fn all(&self,ctx: &Ctx) -> Vec<Users> {
+//         use crate::schema::users::dsl::*;
+//         let connection = ctx.db.get().unwrap();
+//         users
+//             .limit(100)
+//             .load::<Self>(&connection)
+//             .expect("Error loading users")
+//     }
+    
+//     fn by_id(&self,ctx: &Ctx, id: String) -> FieldResult<Users> {
+//         use crate::schema::users::dsl::*;
+//         let connection = ctx.db.get().unwrap();
+//         let result_user = users.filter(user_id.eq(id)).first::<Self>(&connection)?;
+//         Ok(result_user)
+//     }
+    
+// }
+
 
 pub fn allusers(ctx: &Ctx) -> Vec<Users> {
     use crate::schema::users::dsl::*;

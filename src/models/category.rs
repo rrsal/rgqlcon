@@ -1,0 +1,50 @@
+use crate::schema::*;
+use chrono::NaiveDateTime;
+use juniper::{GraphQLInputObject, GraphQLObject};
+
+#[derive(Queryable, GraphQLObject, Insertable)]
+#[table_name = "category"]
+pub struct Categories {
+    pub category_id: String,
+    pub title: Option<String>,
+    pub meta_title: Option<String>,
+    pub summary: Option<String>,
+    pub content: Option<String>,
+    pub parent_id: String,
+}
+
+
+#[derive(GraphQLInputObject)]
+#[graphql(description = "New Category for product")]
+pub struct NewCategory {
+    pub title: Option<String>,
+    pub meta_title: Option<String>,
+    pub summary: Option<String>,
+    pub content: Option<String>,
+    pub parent_id: String,
+}
+
+
+impl Categories{
+    pub fn new(id:String,new_category:NewCategory) -> Self {
+        Self{
+            category_id:id,
+            title:new_category.title,
+            meta_title: new_category.meta_title,
+            summary: new_category.summary,
+            content: new_category.content,
+            parent_id: new_category.parent_id,
+        }
+    }
+}
+
+#[derive(GraphQLInputObject, AsChangeset)]
+#[graphql(description = "Update Category for product")]
+#[table_name="category"]
+pub struct UpdateCategory {
+    pub title: String,
+    pub meta_title: String,
+    pub summary: String,
+    pub content: String,
+    pub parent_id: String,
+}
