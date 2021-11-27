@@ -15,7 +15,7 @@ pub struct Products {
     pub discount: f64,
     pub quantity: f64,
     pub seller_id: String,
-    pub create_at: NaiveDateTime,
+    pub created_at: NaiveDateTime,
     pub updated_at: NaiveDateTime,
     pub published_at: NaiveDateTime,
     pub other_details: String,
@@ -53,4 +53,32 @@ pub struct UpdateProduct {
     pub seller_id: String,
     pub other_details: String,
     pub category_id: i32,
+}
+
+impl Products {
+    pub fn new(
+        id: String,
+        created_at: NaiveDateTime,
+        updated_at: NaiveDateTime,
+        published_at: NaiveDateTime,
+        new_product: NewProduct,
+    ) -> Self {
+        Self {
+            product_id: id,
+            title: new_product.title,
+            meta_title: new_product.meta_title,
+            summary: new_product.summary,
+            sku: new_product.sku,
+            p_type: new_product.p_type,
+            price: new_product.price,
+            discount: new_product.discount,
+            quantity: new_product.quantity,
+            seller_id: new_product.seller_id,
+            created_at: created_at,
+            updated_at: updated_at,
+            published_at: published_at,
+            other_details: new_product.other_details,
+            category_id: new_product.category_id,
+        }
+    }
 }

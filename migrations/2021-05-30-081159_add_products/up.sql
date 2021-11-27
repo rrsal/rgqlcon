@@ -32,7 +32,7 @@ CREATE  TABLE category (
 	meta_title           varchar(100)   ,
 	summary              text   ,
 	content              text   ,
-	parent_id            varchar(64)  NULL ,
+	CONSTRAINT pk_category_category_id PRIMARY KEY ( category_id )
  );
 
 

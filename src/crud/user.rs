@@ -68,7 +68,6 @@ impl CO for Users {
 pub fn allusers(ctx: &Ctx) -> Vec<Users> {
     use crate::schema::users::dsl::*;
     let connection = ctx.db.get().unwrap();
-    let id = uuid::Uuid::new_v4().to_string();
     users
         .limit(100)
         .load::<Users>(&connection)

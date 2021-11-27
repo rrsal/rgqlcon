@@ -56,7 +56,7 @@ CREATE  TABLE products (
 	discount             float8  NOT NULL ,
 	quantity             float8  NOT NULL ,
 	seller_id            varchar  NOT NULL ,
-	create_at            timestamp(0)  NOT NULL ,
+	created_at            timestamp(0)  NOT NULL ,
 	updated_at           timestamp(0) NOT NULL ,
 	published_at         timestamp(0)  NOT NULL ,
 	other_details        varchar(100)  NOT NULL ,

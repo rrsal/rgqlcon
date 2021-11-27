@@ -1,4 +1,4 @@
-use crate::crud::{user,product};
+use crate::crud::{user};
 use crate::models::user::{Users,UpdateUser,NewUser};
 use crate::models::product::{Products,NewProduct,UpdateProduct};
 use crate::models::category::{Categories,NewCategory,UpdateCategory};
@@ -24,7 +24,18 @@ impl MutationRoot{
     }
 
     fn create_product(ctx: &Ctx, new_product: NewProduct) -> FieldResult<Products> {
-        product::create_product(&ctx, new_product)
+        let product_default = Products::default();
+        product_default.create(ctx, new_product)
+    }
+
+    fn update_product(ctx: &Ctx, id: String, new_product: UpdateProduct) -> FieldResult<Products> {
+        let product_default = Products::default();
+        product_default.update(ctx, id, new_product)
+    }
+
+    fn delete_product(ctx: &Ctx, id: String) -> FieldResult<Products> {
+        let product_default = Products::default();
+        product_default.delete(ctx, id)
     }
 
     fn create_category(ctx:&Ctx, new_categoty:NewCategory) -> FieldResult<Categories> {

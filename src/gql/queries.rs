@@ -1,4 +1,4 @@
-use crate::crud::{user,product};
+use crate::crud::{user};
 use crate::models::user::{Users};
 use crate::models::product::{Products};
 use crate::models::category::{Categories};
@@ -18,11 +18,13 @@ impl QueryRoot{
     }
 
     fn products(ctx: &Ctx) -> Vec<Products> {
-        product::allproducts(ctx)
+        let product_default = Products::default();
+        product_default.all(&ctx)
     }
 
-    fn product(ctx: &Ctx, product_id: String) -> FieldResult<Products> {
-        product::product(ctx, product_id)
+    fn product(ctx: &Ctx, id: String) -> FieldResult<Products> {
+        let product_default = Products::default();
+        product_default.by_id(ctx, id)
     }
 
     fn categories(ctx: &Ctx) -> Vec<Categories> {
@@ -30,6 +32,8 @@ impl QueryRoot{
         category_default.all(ctx)
     }
 
-
-
+    fn category(ctx: &Ctx, id:String) -> FieldResult<Categories> {
+        let category_default = Categories::default();
+        category_default.by_id(ctx,id)
+    }
 }

@@ -137,7 +137,7 @@ table! {
         discount -> Float8,
         quantity -> Float8,
         seller_id -> Varchar,
-        create_at -> Timestamp,
+        created_at -> Timestamp,
         updated_at -> Timestamp,
         published_at -> Timestamp,
         other_details -> Varchar,

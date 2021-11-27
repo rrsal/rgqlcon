@@ -1,60 +1,92 @@
+use crate::crud::base::{getCurrentDate, CO};
 use crate::gql::root::Ctx;
-use crate::models::product::{NewProduct,UpdateProduct,Products};
+use crate::models::product::{NewProduct, Products, UpdateProduct};
 use chrono::*;
 use diesel::prelude::*;
 use juniper::FieldResult;
 
+impl CO for Products {
+    type All = Vec<Products>;
+    type Get = FieldResult<Products>;
+    type Update = UpdateProduct;
+    type New = NewProduct;
 
-pub fn allproducts(ctx: &Ctx) -> Vec<Products> {
-    use crate::schema::products::dsl::*;
-    let connection = ctx.db.get().unwrap();
-    products
-        .limit(100)
-        .load::<Products>(&connection)
-        .expect("Error loading products")
+    fn all(&self, ctx: &Ctx) -> Self::All {
+        use crate::schema::products::dsl::*;
+        let connection = ctx.db.get().unwrap();
+        products
+            .limit(100)
+            .load::<Self>(&connection)
+            .expect("Error loading products")
+    }
+
+    fn by_id(&self, ctx: &Ctx, id: String) -> Self::Get {
+        use crate::schema::products::dsl::*;
+        let connection = ctx.db.get().unwrap();
+
+        let result = products
+            .filter(product_id.eq(id))
+            .first::<Self>(&connection)?;
+        Ok(result)
+    }
+
+    fn create(&self, ctx: &Ctx, new_product: Self::New) -> Self::Get {
+        use crate::schema::products::dsl::*;
+        let connection = ctx.db.get().unwrap();
+        let id = uuid::Uuid::new_v4().to_string();
+        let now = getCurrentDate();
+        let new = Self::new(id, now, now, now, new_product);
+
+        let res = diesel::insert_into(products)
+            .values(new)
+            .get_result::<Self>(&connection);
+
+        match res {
+            Ok(t) => Ok(t),
+            Err(e) => FieldResult::Err(juniper::FieldError::from(e)),
+        }
+    }
+
+    fn update(&self, ctx: &Ctx, id: String, update_data: Self::Update) -> Self::Get {
+        use crate::schema::products::dsl::*;
+        let connection = ctx.db.get().unwrap();
+
+        let result = diesel::update(products)
+            .filter(product_id.eq(id))
+            .set(update_data)
+            .get_result::<Self>(&connection)?;
+        Ok(result)
+    }
+
+    fn delete(&self, ctx: &Ctx, id: String) -> Self::Get {
+        use crate::schema::products::dsl::*;
+        let connection = ctx.db.get().unwrap();
+
+        let result = diesel::delete(products)
+            .filter(product_id.eq(id))
+            .get_result::<Self>(&connection)?;
+        Ok(result)
+    }
 }
 
-pub fn product(ctx: &Ctx, pid: String) -> FieldResult<Products> {
-    use crate::schema::products::dsl::*;
-    let connection = ctx.db.get().unwrap();
-    let result = products.filter(product_id.eq(pid)).first::<Products>(&connection)?;
-    Ok(result)
-}
-
-pub fn create_product(ctx: &Ctx,new_product: NewProduct) -> FieldResult<Products> {
-    use crate::schema::products::dsl::*;
-    let connection = ctx.db.get().unwrap();
-    let id = uuid::Uuid::new_v4().to_string();
-    let current_date = chrono::offset::Utc::now();
-    let year = current_date.year();
-    let month = current_date.month();
-    let day = current_date.day();
-    let hour = current_date.hour();
-    let minute = current_date.minute();
-    let second = current_date.second();
-    let product = Products{
-        product_id: id,
-        title: new_product.title,
-        meta_title: new_product.meta_title,
-        summary: new_product.summary,
-        sku: new_product.sku,
-        p_type: new_product.p_type,
-        price: new_product.price,
-        discount: new_product.discount,
-        quantity: new_product.quantity,
-        seller_id: new_product.seller_id,
-        create_at:  NaiveDate::from_ymd(year,month,day).and_hms(hour,minute,second),
-        updated_at: NaiveDate::from_ymd(year,month,day).and_hms(hour,minute,second),
-        published_at: NaiveDate::from_ymd(year,month,day).and_hms(hour,minute,second),
-        other_details: new_product.other_details,
-        category_id: new_product.category_id
-    };
-    let res = diesel::insert_into(products)
-    .values(product)
-    .get_result::<Products>(&connection);
-
-    match res{
-        Ok(t)=> Ok(t),
-        Err(e)=> FieldResult::Err(juniper::FieldError::from(e))
+impl Default for Products{
+    fn default() -> Self{
+        Self{
+            product_id: String::from(""),
+            title: String::from(""),
+            meta_title: String::from(""),
+            summary: String::from(""),
+            sku: String::from(""),
+            p_type: String::from(""),
+            price: f64::INFINITY,
+            discount: 0.0,
+            quantity: 0.0,
+            seller_id: String::from(""),
+            created_at: NaiveDate::from_ymd(2015, 6, 3).and_hms(9, 10, 11),
+            updated_at: NaiveDate::from_ymd(2015, 6, 3).and_hms(9, 10, 11),
+            published_at: NaiveDate::from_ymd(2015, 6, 3).and_hms(9, 10, 11),
+            other_details: String::from(""),
+            category_id: 0,
+        }
     }
 }
