@@ -108,7 +108,7 @@ table! {
     product_review (review_id) {
         review_id -> Varchar,
         product_id -> Varchar,
-        parent_id -> Varchar,
+        parent_id -> Nullable<Varchar>,
         title -> Nullable<Varchar>,
         rating -> Nullable<Int4>,
         description -> Nullable<Text>,

@@ -1,19 +1,20 @@
-use crate::crud::{user};
-use crate::models::user::{Users};
-use crate::models::product::{Products};
-use crate::models::category::{Categories};
 use crate::crud::base::CO;
+use crate::crud::user;
 use crate::gql::root::Ctx;
-use juniper::{FieldResult};
+use crate::models::category::Categories;
+use crate::models::product_review::ProductReview;
+use crate::models::product::Products;
+use crate::models::user::Users;
+use juniper::FieldResult;
 pub struct QueryRoot;
 
 #[juniper::graphql_object(context = Ctx)]
-impl QueryRoot{
-    fn users(ctx:&Ctx)->Vec<Users>{
+impl QueryRoot {
+    fn users(ctx: &Ctx) -> Vec<Users> {
         user::allusers(ctx)
     }
 
-    fn user(ctx:&Ctx,user_id:String) -> FieldResult<Users>{
+    fn user(ctx: &Ctx, user_id: String) -> FieldResult<Users> {
         user::user(ctx, user_id)
     }
 
@@ -32,8 +33,18 @@ impl QueryRoot{
         category_default.all(ctx)
     }
 
-    fn category(ctx: &Ctx, id:String) -> FieldResult<Categories> {
+    fn category(ctx: &Ctx, id: String) -> FieldResult<Categories> {
         let category_default = Categories::default();
-        category_default.by_id(ctx,id)
+        category_default.by_id(ctx, id)
+    }
+
+    fn reviews(ctx: &Ctx) -> Vec<ProductReview> {
+        let review_default = ProductReview::default();
+        review_default.all(ctx)
+    }
+
+    fn review(ctx: &Ctx, id: String) -> FieldResult<ProductReview> {
+        let review_default = ProductReview::default();
+        review_default.by_id(ctx, id)
     }
 }

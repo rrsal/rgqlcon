@@ -1,7 +1,7 @@
 CREATE  TABLE product_review ( 
 	review_id            varchar(64)  NOT NULL ,
 	product_id           varchar(64)  NOT NULL ,
-	parent_id            varchar(64)  NOT NULL ,
+	parent_id            varchar(64),
 	title                varchar(100)   ,
 	rating               Integer   ,
 	description          text   ,
