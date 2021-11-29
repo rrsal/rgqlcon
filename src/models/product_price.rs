@@ -20,6 +20,7 @@ pub struct NewProductPrice {
 
 #[derive(GraphQLInputObject, AsChangeset)]
 #[graphql(description = "Updated Product Price")]
+#[table_name = "product_price"]
 pub struct UpdateProductPrice {
     pub date_from: NaiveDateTime,
     pub product_id: String,
@@ -30,7 +31,7 @@ impl ProductPrice {
     pub fn new(id: String, date_from: NaiveDateTime, new_price: NewProductPrice) -> Self {
         Self {
             price_id: id,
-            date_from: date_from,
+            date_from,
             product_id: new_price.product_id,
             price: new_price.price,
         }

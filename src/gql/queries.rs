@@ -20,7 +20,7 @@ impl QueryRoot {
 
     fn products(ctx: &Ctx) -> Vec<Products> {
         let product_default = Products::default();
-        product_default.all(&ctx)
+        product_default.all(ctx)
     }
 
     fn product(ctx: &Ctx, id: String) -> FieldResult<Products> {

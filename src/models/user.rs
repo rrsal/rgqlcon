@@ -49,11 +49,11 @@ impl Users {
             address_id: new_user.address_id,
             email: new_user.email,
             phone: new_user.phone,
-            password_hash: password_hash,
-            registered_at: registered_at,
-            last_login: last_login,
             rating: new_user.rating,
             profile: new_user.profile,
+            password_hash,
+            registered_at,
+            last_login,
         }
     }
 }

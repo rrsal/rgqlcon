@@ -1,4 +1,4 @@
-use crate::crud::base::{getCurrentDate, CO};
+use crate::crud::base::{get_current_date, CO};
 use crate::gql::root::Ctx;
 use crate::models::product::{NewProduct, Products, UpdateProduct};
 use chrono::*;
@@ -34,7 +34,7 @@ impl CO for Products {
         use crate::schema::products::dsl::*;
         let connection = ctx.db.get().unwrap();
         let id = uuid::Uuid::new_v4().to_string();
-        let now = getCurrentDate();
+        let now = get_current_date();
         let new = Self::new(id, now, now, now, new_product);
 
         let res = diesel::insert_into(products)

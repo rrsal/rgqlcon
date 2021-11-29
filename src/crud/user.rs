@@ -1,4 +1,4 @@
-use crate::crud::base::{getCurrentDate, CO};
+use crate::crud::base::{get_current_date, CO};
 use crate::gql::root::Ctx;
 use crate::models::user::{NewUser, UpdateUser, Users};
 use chrono::NaiveDate;
@@ -32,7 +32,7 @@ impl CO for Users {
         let connection = ctx.db.get().unwrap();
         let id = uuid::Uuid::new_v4().to_string();
         let hashed = String::from("hashed");
-        let now = getCurrentDate();
+        let now = get_current_date();
         let new = Users::new(id, hashed, now, now, new_data);
         let res = diesel::insert_into(users)
             .values(new)

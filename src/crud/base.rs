@@ -14,7 +14,7 @@ pub trait CO {
 }
 
 
-pub fn getCurrentDate() -> NaiveDateTime {
+pub fn get_current_date() -> NaiveDateTime {
     let current_date = chrono::offset::Utc::now();
     let year = current_date.year();
     let month = current_date.month();
@@ -22,5 +22,5 @@ pub fn getCurrentDate() -> NaiveDateTime {
     let hour = current_date.hour();
     let minute = current_date.minute();
     let second = current_date.second();
-    return NaiveDate::from_ymd(year,month,day).and_hms(hour,minute,second)
+    NaiveDate::from_ymd(year,month,day).and_hms(hour,minute,second)
 }

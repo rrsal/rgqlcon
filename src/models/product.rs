@@ -74,9 +74,9 @@ impl Products {
             discount: new_product.discount,
             quantity: new_product.quantity,
             seller_id: new_product.seller_id,
-            created_at: created_at,
-            updated_at: updated_at,
-            published_at: published_at,
+            created_at,
+            updated_at,
+            published_at,
             other_details: new_product.other_details,
             category_id: new_product.category_id,
         }

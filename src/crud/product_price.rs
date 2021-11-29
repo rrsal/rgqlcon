@@ -1,4 +1,4 @@
-use crate::crud::base::{getCurrentDate, CO};
+use crate::crud::base::{get_current_date, CO};
 use crate::gql::root::Ctx;
 use crate::models::product_price::{NewProductPrice, ProductPrice, UpdateProductPrice};
 use chrono::*;
@@ -12,7 +12,7 @@ impl CO for ProductPrice{
     type New = NewProductPrice;
 
     fn all(&self, ctx: &Ctx) -> Self::All {
-        use crate::schema::product_price::dsl:*;
+        use crate::schema::product_price::dsl::*;
         let connection = ctx.db.get().unwrap();
 
         product_price
@@ -36,7 +36,7 @@ impl CO for ProductPrice{
         use crate::schema::product_price::dsl::*;
         let connection = ctx.db.get().unwrap();
         let id = uuid::Uuid::new_v4().to_string();
-        let now = getCurrentDate();
+        let now = get_current_date();
         let new = Self::new(id,now,new_price);
 
         let result = diesel::insert_into(product_price)
@@ -77,8 +77,9 @@ impl Default for ProductPrice {
     fn default() -> Self {
         Self {
             price_id: String::from(""),
-            date_from: NaiveDate::from_ymd(2015, 6, 3).and_hms(9, 10, 11),,
+            date_from: NaiveDate::from_ymd(2015, 6, 3).and_hms(9, 10, 11),
             product_id: String::from(""),
             price: 0.0
         }
     }
+}

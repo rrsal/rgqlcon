@@ -54,9 +54,9 @@ impl ProductReview {
             title: new_review.title,
             rating: new_review.rating,
             description: new_review.description,
-            created_at: created_at,
+            created_at,
             published: new_review.published,
-            published_at: published_at,
+            published_at,
         }
     }
 }
