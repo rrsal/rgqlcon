@@ -2,13 +2,13 @@ table! {
     address (address_id) {
         address_id -> Varchar,
         line_1 -> Varchar,
-        line_2 -> Varchar,
-        line_3 -> Varchar,
+        line_2 -> Nullable<Varchar>,
+        line_3 -> Nullable<Varchar>,
         city -> Varchar,
         zip_code -> Int4,
         state_province -> Varchar,
         country -> Varchar,
-        other_details -> Varchar,
+        other_details -> Nullable<Varchar>,
     }
 }
 

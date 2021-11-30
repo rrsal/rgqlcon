@@ -1,6 +1,7 @@
 use crate::crud::base::CO;
 use crate::crud::user;
 use crate::gql::root::Ctx;
+use crate::models::address::{Addresses, NewAddress, UpdateAddress};
 use crate::models::category::{Categories, NewCategory, UpdateCategory};
 use crate::models::product::{NewProduct, Products, UpdateProduct};
 use crate::models::product_price::{NewProductPrice, ProductPrice, UpdateProductPrice};
@@ -95,5 +96,23 @@ impl MutationRoot {
     fn delete_product_price(ctx: &Ctx, id: String) -> FieldResult<ProductPrice> {
         let price_default = ProductPrice::default();
         price_default.delete(ctx, id)
+    }
+
+    fn create_address(ctx: &Ctx, new_address: NewAddress) -> FieldResult<Addresses> {
+        let default = Addresses::default();
+        default.create(ctx, new_address)
+    }
+
+    fn update_address(
+        ctx: &Ctx,
+        id: String,
+        updated_address: UpdateAddress,
+    ) -> FieldResult<Addresses> {
+        let default = Addresses::default();
+        default.update(ctx, id, updated_address)
+    }
+    fn delete_address(ctx: &Ctx, id: String) -> FieldResult<Addresses> {
+        let default = Addresses::default();
+        default.delete(ctx, id)
     }
 }

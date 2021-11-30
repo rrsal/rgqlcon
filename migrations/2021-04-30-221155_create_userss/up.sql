@@ -21,13 +21,13 @@ CREATE  TABLE users (
 CREATE  TABLE address ( 
 	address_id           varchar  NOT NULL ,
 	line_1               varchar  NOT NULL ,
-	line_2               varchar  NOT NULL ,
-	line_3               varchar  NOT NULL ,
+	line_2               varchar  ,
+	line_3               varchar  ,
 	city                 varchar  NOT NULL ,
 	zip_code             integer  NOT NULL ,
 	state_province       varchar  NOT NULL ,
 	country              varchar  NOT NULL ,
-	other_details        varchar  NOT NULL ,
+	other_details        varchar ,
 	CONSTRAINT pk_address_address_id PRIMARY KEY ( address_id )
  );
 
