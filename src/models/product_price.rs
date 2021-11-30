@@ -22,8 +22,7 @@ pub struct NewProductPrice {
 #[graphql(description = "Updated Product Price")]
 #[table_name = "product_price"]
 pub struct UpdateProductPrice {
-    pub date_from: NaiveDateTime,
-    pub product_id: String,
+    pub product_id: Option<String>,
     pub price: f64,
 }
 

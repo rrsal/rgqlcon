@@ -50,11 +50,11 @@ impl CO for ProductPrice{
 
     }
 
-    fn update(&self, ctx: &Ctx, update_price: Self::Update) -> Self::Get {
+    fn update(&self, ctx: &Ctx, id: String, update_price: Self::Update) -> Self::Get {
         use crate::schema::product_price::dsl::*;
         let connection = ctx.db.get().unwrap();
 
-        let result = diesel::update(update_price)
+        let result = diesel::update(product_price)
             .filter(price_id.eq(id))
             .set(update_price)
             .get_result::<Self>(&connection)?;

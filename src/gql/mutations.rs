@@ -3,6 +3,7 @@ use crate::crud::user;
 use crate::gql::root::Ctx;
 use crate::models::category::{Categories, NewCategory, UpdateCategory};
 use crate::models::product::{NewProduct, Products, UpdateProduct};
+use crate::models::product_price::{NewProductPrice, ProductPrice, UpdateProductPrice};
 use crate::models::product_review::{NewProductReview, ProductReview, UpdateProductReview};
 use crate::models::user::{NewUser, UpdateUser, Users};
 use juniper::FieldResult;
@@ -76,5 +77,23 @@ impl MutationRoot {
     fn delete_product_review(ctx: &Ctx, id: String) -> FieldResult<ProductReview> {
         let review_default = ProductReview::default();
         review_default.delete(ctx, id)
+    }
+
+    fn create_product_price(ctx: &Ctx, new_price: NewProductPrice) -> FieldResult<ProductPrice> {
+        let price_default = ProductPrice::default();
+        price_default.create(ctx, new_price)
+    }
+
+    fn update_product_price(
+        ctx: &Ctx,
+        id: String,
+        updated_price: UpdateProductPrice,
+    ) -> FieldResult<ProductPrice> {
+        let price_default = ProductPrice::default();
+        price_default.update(ctx, id, updated_price)
+    }
+    fn delete_product_price(ctx: &Ctx, id: String) -> FieldResult<ProductPrice> {
+        let price_default = ProductPrice::default();
+        price_default.delete(ctx, id)
     }
 }
