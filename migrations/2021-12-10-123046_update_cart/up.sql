@@ -1,0 +1,7 @@
+-- Your SQL goes here
+ALTER TABLE cart ADD COLUMN created_at TIMESTAMP(0) NOT NULL;
+ALTER TABLE cart ADD COLUMN updated_at TIMESTAMP(0) NOT NULL;
+ALTER TABLE cart ADD COLUMN total_price FLOAT;
+ALTER TABLE cart ADD COLUMN total_items FLOAT;
+
+
