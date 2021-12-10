@@ -65,3 +65,20 @@ impl CO for Addresses {
         Ok(result)
     }
 }
+
+
+impl Default for Addresses {
+    fn default() -> Self {
+        Self {
+            address_id: String::from(""),
+            line_1: String::from(""),
+            line_2: Some(String::from("")),
+            line_3: Some(String::from("")),
+            city: String::from(""),
+            zip_code: 0,
+            state_province: String::from(""),
+            country: String::from(""),
+            other_details: Some(String::from("")),
+        }
+    }
+}

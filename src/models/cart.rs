@@ -25,11 +25,8 @@ pub struct CartInput {
     pub session_id: Option<String>,
     pub token: Option<String>,
     pub status: Option<String>,
-    pub created_at: NaiveDateTime,
-    pub updated_at: NaiveDateTime,
     pub total_price: Option<f64>,
     pub total_items: Option<f64>,
-    pub cart_items: Vec<CartItemIds>,
 }
 
 #[derive(Debug, GraphQLInputObject, AsChangeset)]

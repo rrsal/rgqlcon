@@ -19,6 +19,10 @@ table! {
         session_id -> Nullable<Varchar>,
         token -> Nullable<Varchar>,
         status -> Nullable<Bpchar>,
+        created_at -> Timestamp,
+        updated_at -> Timestamp,
+        total_price -> Nullable<Float8>,
+        total_items -> Nullable<Float8>,
     }
 }
 
