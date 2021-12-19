@@ -2,7 +2,7 @@ use crate::schema::*;
 use chrono::NaiveDateTime;
 use juniper::{GraphQLInputObject, GraphQLObject};
 
-#[derive(Queryable, GraphQLObject, Insertable)]
+#[derive(Debug, Queryable, GraphQLObject, Insertable)]
 #[table_name = "products"]
 pub struct Products {
     pub product_id: String,

@@ -17,6 +17,13 @@ pub struct Cart {
     pub cart_items: Option<Vec<String>>,
 }
 
+#[derive(Debug, GraphQLInputObject, Clone)]
+#[graphql(description = "Product-Price Input")]
+pub struct Items {
+    pub id: String,
+    pub quantity: f64,
+}
+
 #[derive(Debug, GraphQLInputObject)]
 #[graphql(description = "Cart Input")]
 pub struct CartInput {
@@ -26,7 +33,7 @@ pub struct CartInput {
     pub status: Option<String>,
     pub total_price: Option<f64>,
     pub total_items: Option<f64>,
-    pub cart_items: Option<Vec<String>>,
+    pub cart_items: Option<Vec<Items>>,
 }
 
 #[derive(Debug, GraphQLInputObject, AsChangeset)]
@@ -51,6 +58,7 @@ impl Cart {
         updated_at: NaiveDateTime,
         total_price: Option<f64>,
         total_items: Option<f64>,
+        cart_items: Option<Vec<String>>,
         new_cart: CartInput,
     ) -> Self {
         Cart {
@@ -63,7 +71,7 @@ impl Cart {
             updated_at,
             total_price,
             total_items,
-            cart_items: new_cart.cart_items,
+            cart_items,
         }
     }
 }

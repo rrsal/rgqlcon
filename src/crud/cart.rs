@@ -1,7 +1,7 @@
 use crate::crud::base::{get_current_date, CO};
 use crate::gql::root::Ctx;
 use crate::models::cart::{Cart, CartInput, CartUpdateInput};
-use crate::models::cart_item::CartItem;
+use crate::models::product::Products;
 use chrono::NaiveDate;
 use diesel::prelude::*;
 use juniper::{graphql_value, FieldResult};
@@ -34,15 +34,25 @@ impl CO for Cart {
         let now = get_current_date();
         let mut tot_price = 0.0;
         let mut tot_qty = 0.0;
-
-        for item in input.cart_items.clone().unwrap() {
-            let default = CartItem::default();
-            let item = default.by_id(ctx, item).unwrap();
-            tot_price += item.price.unwrap() * item.quantity.unwrap();
-            tot_qty += item.quantity.unwrap();
+        let cis = input.cart_items.clone().unwrap();
+        let mut products = Vec::new();
+        for item in cis {
+            let default = Products::default();
+            let product = default.by_id(ctx, item.id.clone()).unwrap();
+            tot_price += product.price * item.quantity;
+            tot_qty += item.quantity;
+            products.push(item.id);
         }
 
-        let new = Self::new(id, now, now, Some(tot_price), Some(tot_qty), input);
+        let new = Self::new(
+            id,
+            now,
+            now,
+            Some(tot_price),
+            Some(tot_qty),
+            Some(products),
+            input,
+        );
 
         let result = diesel::insert_into(cart)
             .values(new)
