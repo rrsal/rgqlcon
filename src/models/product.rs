@@ -19,7 +19,6 @@ pub struct Products {
     pub updated_at: NaiveDateTime,
     pub published_at: NaiveDateTime,
     pub other_details: String,
-    pub category_id: i32,
 }
 
 #[derive(GraphQLInputObject)]
@@ -35,7 +34,7 @@ pub struct NewProduct {
     pub quantity: f64,
     pub seller_id: String,
     pub other_details: String,
-    pub category_id: i32,
+    pub category_id: String,
 }
 
 #[derive(GraphQLInputObject, AsChangeset)]
@@ -52,7 +51,6 @@ pub struct UpdateProduct {
     pub quantity: f64,
     pub seller_id: String,
     pub other_details: String,
-    pub category_id: i32,
 }
 
 impl Products {
@@ -78,7 +76,6 @@ impl Products {
             updated_at,
             published_at,
             other_details: new_product.other_details,
-            category_id: new_product.category_id,
         }
     }
 }

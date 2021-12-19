@@ -144,7 +144,6 @@ table! {
         updated_at -> Timestamp,
         published_at -> Timestamp,
         other_details -> Varchar,
-        category_id -> Int4,
     }
 }
 

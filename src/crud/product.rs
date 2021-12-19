@@ -1,6 +1,7 @@
 use crate::crud::base::{get_current_date, CO};
 use crate::gql::root::Ctx;
 use crate::models::product::{NewProduct, Products, UpdateProduct};
+use crate::models::product_category::{NewProductCategory, ProductCategory};
 use chrono::*;
 use diesel::prelude::*;
 use juniper::FieldResult;
@@ -33,16 +34,28 @@ impl CO for Products {
     fn create(&self, ctx: &Ctx, new_product: Self::New) -> Self::Get {
         use crate::schema::products::dsl::*;
         let connection = ctx.db.get().unwrap();
-        let id = uuid::Uuid::new_v4().to_string();
+        let id = String::from(uuid::Uuid::new_v4().to_string());
+        let category_id = new_product.category_id.clone();
         let now = get_current_date();
-        let new = Self::new(id, now, now, now, new_product);
+        let new = Self::new(id.clone(), now, now, now, new_product);
 
         let res = diesel::insert_into(products)
             .values(new)
             .get_result::<Self>(&connection);
 
         match res {
-            Ok(t) => Ok(t),
+            Ok(t) => {
+                let new_pc = NewProductCategory {
+                    product_id: id.clone(),
+                    category_id,
+                };
+                let default = ProductCategory::default();
+                let pc_result = default.create(ctx, new_pc);
+                match pc_result {
+                    Ok(_) => Ok(t),
+                    Err(e) => FieldResult::Err(juniper::FieldError::from(e)),
+                }
+            }
             Err(e) => FieldResult::Err(juniper::FieldError::from(e)),
         }
     }
@@ -69,9 +82,9 @@ impl CO for Products {
     }
 }
 
-impl Default for Products{
-    fn default() -> Self{
-        Self{
+impl Default for Products {
+    fn default() -> Self {
+        Self {
             product_id: String::from(""),
             title: String::from(""),
             meta_title: String::from(""),
@@ -86,7 +99,6 @@ impl Default for Products{
             updated_at: NaiveDate::from_ymd(2015, 6, 3).and_hms(9, 10, 11),
             published_at: NaiveDate::from_ymd(2015, 6, 3).and_hms(9, 10, 11),
             other_details: String::from(""),
-            category_id: 0,
         }
     }
 }
