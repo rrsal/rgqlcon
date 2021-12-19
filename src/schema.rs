@@ -23,6 +23,7 @@ table! {
         updated_at -> Timestamp,
         total_price -> Nullable<Float8>,
         total_items -> Nullable<Float8>,
+        cart_items -> Nullable<Array<Text>>,
     }
 }
 
@@ -37,8 +38,6 @@ table! {
         quantity -> Nullable<Float8>,
         measure -> Nullable<Float8>,
         active -> Nullable<Int4>,
-        created_at -> Timestamp,
-        updated_at -> Timestamp,
     }
 }
 

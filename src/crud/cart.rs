@@ -1,8 +1,7 @@
 use crate::crud::base::{get_current_date, CO};
 use crate::gql::root::Ctx;
 use crate::models::cart::{Cart, CartInput, CartUpdateInput};
-use crate::models::cart_item::{CartItemIds};
-use crate::models::product_price::ProductPrice;
+use crate::models::cart_item::CartItem;
 use chrono::NaiveDate;
 use diesel::prelude::*;
 use juniper::{graphql_value, FieldResult};
@@ -36,11 +35,11 @@ impl CO for Cart {
         let mut tot_price = 0.0;
         let mut tot_qty = 0.0;
 
-        for item in cart_items.clone(){
-            let default = ProductPrice::default();
-            let price = default.by_id(ctx, item.id);
-            tot_price += price.unwrap().price * item.quantity;
-            tot_qty += item.quantity;
+        for item in input.cart_items.clone().unwrap() {
+            let default = CartItem::default();
+            let item = default.by_id(ctx, item).unwrap();
+            tot_price += item.price.unwrap() * item.quantity.unwrap();
+            tot_qty += item.quantity.unwrap();
         }
 
         let new = Self::new(id, now, now, Some(tot_price), Some(tot_qty), input);
@@ -89,7 +88,8 @@ impl Default for Cart {
             created_at: NaiveDate::from_ymd(2015, 6, 3).and_hms(9, 10, 11),
             updated_at: NaiveDate::from_ymd(2015, 6, 3).and_hms(9, 10, 11),
             total_price: Some(0.0),
-            total_items: Some(0.0)
+            total_items: Some(0.0),
+            cart_items: Some(Vec::default()),
         }
     }
 }

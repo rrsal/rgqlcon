@@ -1,14 +1,5 @@
 use crate::schema::cart_items;
-use chrono::NaiveDateTime;
 use juniper::{GraphQLInputObject, GraphQLObject};
-
-
-#[derive(GraphQLInputObject, Debug, Clone)]
-pub struct CartItemIds {
-    pub id: String,
-    pub quantity: f64,
-    pub measure: Option<String>,
-}
 
 #[derive(Debug, Queryable, GraphQLObject, Insertable)]
 #[table_name = "cart_items"]
@@ -22,8 +13,6 @@ pub struct CartItem {
     pub quantity: Option<f64>,
     pub measure: Option<f64>,
     pub active: Option<i32>,
-    pub created_at: NaiveDateTime,
-    pub updated_at: NaiveDateTime,
 }
 
 #[derive(Debug, GraphQLInputObject)]
@@ -38,8 +27,6 @@ pub struct NewCartItem {
     pub quantity: Option<f64>,
     pub measure: Option<f64>,
     pub active: Option<i32>,
-    pub created_at: NaiveDateTime,
-    pub updated_at: NaiveDateTime,
 }
 
 #[derive(Debug, GraphQLInputObject, AsChangeset)]
@@ -55,8 +42,6 @@ pub struct UpdateCartItem {
     pub quantity: Option<f64>,
     pub measure: Option<f64>,
     pub active: Option<i32>,
-    pub created_at: Option<NaiveDateTime>,
-    pub updated_at: Option<NaiveDateTime>,
 }
 
 impl CartItem {
@@ -71,8 +56,6 @@ impl CartItem {
             quantity: new_cart_item.quantity,
             measure: new_cart_item.measure,
             active: new_cart_item.active,
-            created_at: new_cart_item.created_at,
-            updated_at: new_cart_item.updated_at,
         }
     }
 }
