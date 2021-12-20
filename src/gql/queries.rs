@@ -36,7 +36,7 @@ impl QueryRoot {
         default.all(ctx)
     }
 
-    fn category(ctx: &Ctx, id: String) -> FieldResult<Categories> {
+    fn category(ctx: &Ctx, id: String) -> FieldResult<Option<Categories>> {
         let default = Categories::default();
         default.by_id(ctx, id)
     }

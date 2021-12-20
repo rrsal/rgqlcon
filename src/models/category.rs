@@ -11,7 +11,6 @@ pub struct Categories {
     pub content: Option<String>,
 }
 
-
 #[derive(GraphQLInputObject)]
 #[graphql(description = "New Category for product")]
 pub struct NewCategory {
@@ -21,24 +20,21 @@ pub struct NewCategory {
     pub content: Option<String>,
 }
 
-
-impl Categories{
-    pub fn new(id:String,new_category:NewCategory) -> Self {
-        Self{
-            category_id:id,
-            title:new_category.title,
+impl Categories {
+    pub fn new(id: String, new_category: NewCategory) -> Self {
+        Self {
+            category_id: id,
+            title: new_category.title,
             meta_title: new_category.meta_title,
             summary: new_category.summary,
             content: new_category.content,
         }
     }
-
-
 }
 
 #[derive(GraphQLInputObject, AsChangeset)]
 #[graphql(description = "Update Category for product")]
-#[table_name="category"]
+#[table_name = "category"]
 pub struct UpdateCategory {
     pub title: Option<String>,
     pub meta_title: Option<String>,

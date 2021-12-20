@@ -40,7 +40,7 @@ impl MutationRoot {
         product_default.delete(ctx, id)
     }
 
-    fn create_category(ctx: &Ctx, new_categoty: NewCategory) -> FieldResult<Categories> {
+    fn create_category(ctx: &Ctx, new_categoty: NewCategory) -> FieldResult<Option<Categories>> {
         let category_default = Categories::default();
         category_default.create(ctx, new_categoty)
     }
@@ -49,12 +49,12 @@ impl MutationRoot {
         ctx: &Ctx,
         id: String,
         updated_category: UpdateCategory,
-    ) -> FieldResult<Categories> {
+    ) -> FieldResult<Option<Categories>> {
         let category_default = Categories::default();
         category_default.update(ctx, id, updated_category)
     }
 
-    fn delete_category(ctx: &Ctx, id: String) -> FieldResult<Categories> {
+    fn delete_category(ctx: &Ctx, id: String) -> FieldResult<Option<Categories>> {
         let category_default = Categories::default();
         category_default.delete(ctx, id)
     }
