@@ -54,7 +54,7 @@ impl CO for Users {
         Ok(result)
     }
 
-    fn delete(&self,ctx: &Ctx, id: String) -> Self::Get{
+    fn delete(&self, ctx: &Ctx, id: String) -> Self::Get {
         use crate::schema::users::dsl::*;
         let connection = ctx.db.get().unwrap();
 
@@ -74,11 +74,11 @@ pub fn allusers(ctx: &Ctx) -> Vec<Users> {
         .expect("Error loading users")
 }
 
-pub fn user(ctx: &Ctx, uid: String) -> FieldResult<Users> {
+pub fn user(ctx: &Ctx, uid: String) -> FieldResult<Option<Users>> {
     use crate::schema::users::dsl::*;
     let connection = ctx.db.get().unwrap();
     let result_user = users.filter(user_id.eq(uid)).first::<Users>(&connection)?;
-    Ok(result_user)
+    Ok(Some(result_user))
 }
 
 pub fn create_user(new_user: NewUser, ctx: &Ctx) -> FieldResult<Vec<Users>> {
@@ -108,20 +108,20 @@ pub fn create_user(new_user: NewUser, ctx: &Ctx) -> FieldResult<Vec<Users>> {
     }
 }
 
-pub fn update(ctx: &Ctx, id: String, updated_user: UpdateUser) -> FieldResult<Users> {
+pub fn update(ctx: &Ctx, id: String, updated_user: UpdateUser) -> FieldResult<Option<Users>> {
     use crate::schema::users::dsl::*;
     let connection = ctx.db.get().unwrap();
     let result_user = diesel::update(users)
         .filter(user_id.eq(id))
         .set(updated_user)
         .get_result::<Users>(&connection)?;
-    Ok(result_user)
+    Ok(Some(result_user))
 }
 
-pub fn delete(ctx: &Ctx, id: String) -> FieldResult<Users> {
+pub fn delete(ctx: &Ctx, id: String) -> FieldResult<Option<Users>> {
     use crate::schema::users::dsl::*;
     let connection = ctx.db.get().unwrap();
     let deleted_user =
         diesel::delete(users.filter(user_id.eq(id))).get_result::<Users>(&connection)?;
-    Ok(deleted_user)
+    Ok(Some(deleted_user))
 }

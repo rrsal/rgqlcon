@@ -8,7 +8,7 @@ use juniper::FieldResult;
 
 impl CO for Products {
     type All = Vec<Products>;
-    type Get = FieldResult<Products>;
+    type Get = FieldResult<Option<Products>>;
     type Update = UpdateProduct;
     type New = NewProduct;
 
@@ -28,7 +28,7 @@ impl CO for Products {
         let result = products
             .filter(product_id.eq(id))
             .first::<Self>(&connection)?;
-        Ok(result)
+        Ok(Some(result))
     }
 
     fn create(&self, ctx: &Ctx, new_product: Self::New) -> Self::Get {
@@ -52,7 +52,7 @@ impl CO for Products {
                 let default = ProductCategory::default();
                 let pc_result = default.create(ctx, new_pc);
                 match pc_result {
-                    Ok(_) => Ok(t),
+                    Ok(_) => Ok(Some(t)),
                     Err(e) => FieldResult::Err(juniper::FieldError::from(e)),
                 }
             }
@@ -68,7 +68,7 @@ impl CO for Products {
             .filter(product_id.eq(id))
             .set(update_data)
             .get_result::<Self>(&connection)?;
-        Ok(result)
+        Ok(Some(result))
     }
 
     fn delete(&self, ctx: &Ctx, id: String) -> Self::Get {
@@ -78,7 +78,7 @@ impl CO for Products {
         let result = diesel::delete(products)
             .filter(product_id.eq(id))
             .get_result::<Self>(&connection)?;
-        Ok(result)
+        Ok(Some(result))
     }
 }
 

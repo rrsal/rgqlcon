@@ -7,7 +7,7 @@ use juniper::FieldResult;
 
 impl CO for ProductReview {
     type All = Vec<ProductReview>;
-    type Get = FieldResult<ProductReview>;
+    type Get = FieldResult<Option<ProductReview>>;
     type Update = UpdateProductReview;
     type New = NewProductReview;
 
@@ -27,7 +27,7 @@ impl CO for ProductReview {
         let result = product_review
             .filter(review_id.eq(id))
             .first::<Self>(&connection)?;
-        Ok(result)
+        Ok(Some(result))
     }
 
     fn create(&self, ctx: &Ctx, new_review: Self::New) -> Self::Get {
@@ -42,7 +42,7 @@ impl CO for ProductReview {
             .get_result::<Self>(&connection);
 
         match result {
-            Ok(t) => Ok(t),
+            Ok(t) => Ok(Some(t)),
             Err(e) => FieldResult::Err(juniper::FieldError::from(e)),
         }
     }
@@ -55,7 +55,7 @@ impl CO for ProductReview {
             .filter(review_id.eq(id))
             .set(updated_review)
             .get_result::<Self>(&connection)?;
-        Ok(result)
+        Ok(Some(result))
     }
 
     fn delete(&self, ctx: &Ctx, id: String) -> Self::Get {
@@ -65,7 +65,7 @@ impl CO for ProductReview {
         let result = diesel::delete(product_review)
             .filter(review_id.eq(id))
             .get_result::<Self>(&connection)?;
-        Ok(result)
+        Ok(Some(result))
     }
 }
 

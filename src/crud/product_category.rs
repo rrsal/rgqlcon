@@ -6,7 +6,7 @@ use juniper::{FieldError, FieldResult};
 
 impl CO for ProductCategory {
     type All = Vec<ProductCategory>;
-    type Get = FieldResult<ProductCategory>;
+    type Get = FieldResult<Option<ProductCategory>>;
     type Update = UpdateProductCategory;
     type New = NewProductCategory;
 
@@ -26,7 +26,7 @@ impl CO for ProductCategory {
         let result = product_category
             .filter(product_id.eq(id))
             .first::<Self>(&connection)?;
-        Ok(result)
+        Ok(Some(result))
     }
 
     fn create(&self, ctx: &Ctx, new_data: Self::New) -> Self::Get {
@@ -39,7 +39,7 @@ impl CO for ProductCategory {
             .get_result::<Self>(&connection);
 
         match result {
-            Ok(t) => Ok(t),
+            Ok(t) => Ok(Some(t)),
             Err(e) => FieldResult::Err(FieldError::from(e)),
         }
     }
@@ -52,7 +52,7 @@ impl CO for ProductCategory {
             .filter(product_id.eq(id))
             .set(update_data)
             .get_result::<Self>(&connection)?;
-        Ok(result)
+        Ok(Some(result))
     }
 
     fn delete(&self, ctx: &Ctx, id: String) -> Self::Get {
@@ -62,6 +62,6 @@ impl CO for ProductCategory {
         let result = diesel::delete(product_category)
             .filter(product_id.eq(id))
             .get_result::<Self>(&connection)?;
-        Ok(result)
+        Ok(Some(result))
     }
 }

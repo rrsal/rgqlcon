@@ -17,7 +17,7 @@ impl QueryRoot {
         user::allusers(ctx)
     }
 
-    fn user(ctx: &Ctx, user_id: String) -> FieldResult<Users> {
+    fn user(ctx: &Ctx, user_id: String) -> FieldResult<Option<Users>> {
         user::user(ctx, user_id)
     }
 
@@ -26,7 +26,7 @@ impl QueryRoot {
         default.all(ctx)
     }
 
-    fn product(ctx: &Ctx, id: String) -> FieldResult<Products> {
+    fn product(ctx: &Ctx, id: String) -> FieldResult<Option<Products>> {
         let default = Products::default();
         default.by_id(ctx, id)
     }
@@ -46,7 +46,7 @@ impl QueryRoot {
         default.all(ctx)
     }
 
-    fn review(ctx: &Ctx, id: String) -> FieldResult<ProductReview> {
+    fn review(ctx: &Ctx, id: String) -> FieldResult<Option<ProductReview>> {
         let default = ProductReview::default();
         default.by_id(ctx, id)
     }
@@ -56,7 +56,7 @@ impl QueryRoot {
         price.all(ctx)
     }
 
-    fn price(ctx: &Ctx, id: String) -> FieldResult<ProductPrice> {
+    fn price(ctx: &Ctx, id: String) -> FieldResult<Option<ProductPrice>> {
         let price = ProductPrice::default();
         price.by_id(ctx, id)
     }
@@ -66,12 +66,12 @@ impl QueryRoot {
         default.all(ctx)
     }
 
-    fn address(ctx: &Ctx, id: String) -> FieldResult<Addresses> {
+    fn address(ctx: &Ctx, id: String) -> FieldResult<Option<Addresses>> {
         let default = Addresses::default();
         default.by_id(ctx, id)
     }
 
-    fn cart(ctx: &Ctx, id: String) -> FieldResult<Cart> {
+    fn cart(ctx: &Ctx, id: String) -> FieldResult<Option<Cart>> {
         let default = Cart::default();
         default.by_id(ctx, id)
     }

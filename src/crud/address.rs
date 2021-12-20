@@ -6,7 +6,7 @@ use juniper::FieldResult;
 
 impl CO for Addresses {
     type All = Vec<Addresses>;
-    type Get = FieldResult<Addresses>;
+    type Get = FieldResult<Option<Addresses>>;
     type Update = UpdateAddress;
     type New = NewAddress;
 
@@ -27,7 +27,7 @@ impl CO for Addresses {
         let result = address
             .filter(address_id.eq(id))
             .first::<Self>(&connection)?;
-        Ok(result)
+        Ok(Some(result))
     }
 
     fn create(&self, ctx: &Ctx, new_data: Self::New) -> Self::Get {
@@ -41,7 +41,7 @@ impl CO for Addresses {
             .get_result::<Self>(&connection);
 
         match result {
-            Ok(t) => Ok(t),
+            Ok(t) => Ok(Some(t)),
             Err(e) => FieldResult::Err(juniper::FieldError::from(e)),
         }
     }
@@ -53,7 +53,7 @@ impl CO for Addresses {
             .filter(address_id.eq(id))
             .set(update_data)
             .get_result::<Self>(&connection)?;
-        Ok(result)
+        Ok(Some(result))
     }
 
     fn delete(&self, ctx: &Ctx, id: String) -> Self::Get {
@@ -62,10 +62,9 @@ impl CO for Addresses {
         let result = diesel::delete(address)
             .filter(address_id.eq(id))
             .get_result::<Self>(&connection)?;
-        Ok(result)
+        Ok(Some(result))
     }
 }
-
 
 impl Default for Addresses {
     fn default() -> Self {

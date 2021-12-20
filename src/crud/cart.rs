@@ -8,7 +8,7 @@ use juniper::{graphql_value, FieldResult};
 
 impl CO for Cart {
     type All = Vec<Cart>;
-    type Get = FieldResult<Cart>;
+    type Get = FieldResult<Option<Cart>>;
     type Update = CartUpdateInput;
     type New = CartInput;
 
@@ -24,7 +24,7 @@ impl CO for Cart {
         use crate::schema::cart::dsl::*;
         let connection = ctx.db.get().unwrap();
         let result = cart.filter(cart_id.eq(id)).first::<Self>(&connection)?;
-        Ok(result)
+        Ok(Some(result))
     }
 
     fn create(&self, ctx: &Ctx, input: Self::New) -> Self::Get {
@@ -39,7 +39,7 @@ impl CO for Cart {
         for item in cis {
             let default = Products::default();
             let product = default.by_id(ctx, item.id.clone()).unwrap();
-            tot_price += product.price * item.quantity;
+            tot_price += product.unwrap().price * item.quantity;
             tot_qty += item.quantity;
             products.push(item.id);
         }
@@ -59,7 +59,7 @@ impl CO for Cart {
             .get_result::<Self>(&connection);
 
         match result {
-            Ok(t) => Ok(t),
+            Ok(t) => Ok(Some(t)),
             Err(e) => FieldResult::Err(juniper::FieldError::new(
                 format!("{}", e),
                 graphql_value!({ "code": "INTERNAL_SERVER_ERROR" }),
@@ -74,7 +74,7 @@ impl CO for Cart {
             .filter(cart_id.eq(id))
             .set(input)
             .get_result::<Self>(&connection)?;
-        Ok(result)
+        Ok(Some(result))
     }
 
     fn delete(&self, ctx: &Ctx, id: String) -> Self::Get {
@@ -83,7 +83,7 @@ impl CO for Cart {
         let result = diesel::delete(cart)
             .filter(cart_id.eq(id))
             .get_result::<Self>(&connection)?;
-        Ok(result)
+        Ok(Some(result))
     }
 }
 

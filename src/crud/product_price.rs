@@ -5,9 +5,9 @@ use chrono::*;
 use diesel::prelude::*;
 use juniper::FieldResult;
 
-impl CO for ProductPrice{
+impl CO for ProductPrice {
     type All = Vec<ProductPrice>;
-    type Get = FieldResult<ProductPrice>;
+    type Get = FieldResult<Option<ProductPrice>>;
     type Update = UpdateProductPrice;
     type New = NewProductPrice;
 
@@ -21,7 +21,6 @@ impl CO for ProductPrice{
             .expect("Error laoding product price")
     }
 
-    
     fn by_id(&self, ctx: &Ctx, id: String) -> Self::Get {
         use crate::schema::product_price::dsl::*;
         let connection = ctx.db.get().unwrap();
@@ -29,7 +28,7 @@ impl CO for ProductPrice{
         let result = product_price
             .filter(price_id.eq(id))
             .first::<Self>(&connection)?;
-        Ok(result)
+        Ok(Some(result))
     }
 
     fn create(&self, ctx: &Ctx, new_price: Self::New) -> Self::Get {
@@ -37,17 +36,16 @@ impl CO for ProductPrice{
         let connection = ctx.db.get().unwrap();
         let id = uuid::Uuid::new_v4().to_string();
         let now = get_current_date();
-        let new = Self::new(id,now,new_price);
+        let new = Self::new(id, now, new_price);
 
         let result = diesel::insert_into(product_price)
             .values(new)
             .get_result::<Self>(&connection);
-        
+
         match result {
-            Ok(t) => Ok(t),
+            Ok(t) => Ok(Some(t)),
             Err(e) => FieldResult::Err(juniper::FieldError::from(e)),
         }
-
     }
 
     fn update(&self, ctx: &Ctx, id: String, update_price: Self::Update) -> Self::Get {
@@ -58,7 +56,7 @@ impl CO for ProductPrice{
             .filter(price_id.eq(id))
             .set(update_price)
             .get_result::<Self>(&connection)?;
-        Ok(result)
+        Ok(Some(result))
     }
 
     fn delete(&self, ctx: &Ctx, id: String) -> Self::Get {
@@ -68,9 +66,8 @@ impl CO for ProductPrice{
         let result = diesel::delete(product_price)
             .filter(price_id.eq(id))
             .get_result::<Self>(&connection)?;
-        Ok(result)
+        Ok(Some(result))
     }
-
 }
 
 impl Default for ProductPrice {
@@ -79,7 +76,7 @@ impl Default for ProductPrice {
             price_id: String::from(""),
             date_from: NaiveDate::from_ymd(2015, 6, 3).and_hms(9, 10, 11),
             product_id: String::from(""),
-            price: 0.0
+            price: 0.0,
         }
     }
 }

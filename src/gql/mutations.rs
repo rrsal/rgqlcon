@@ -17,25 +17,29 @@ impl MutationRoot {
         user::create_user(new_user, ctx)
     }
 
-    fn update(ctx: &Ctx, id: String, updated_user: UpdateUser) -> FieldResult<Users> {
+    fn update(ctx: &Ctx, id: String, updated_user: UpdateUser) -> FieldResult<Option<Users>> {
         user::update(ctx, id, updated_user)
     }
 
-    fn deleteUser(ctx: &Ctx, user_id: String) -> FieldResult<Users> {
+    fn deleteUser(ctx: &Ctx, user_id: String) -> FieldResult<Option<Users>> {
         user::delete(ctx, user_id)
     }
 
-    fn create_product(ctx: &Ctx, new_product: NewProduct) -> FieldResult<Products> {
+    fn create_product(ctx: &Ctx, new_product: NewProduct) -> FieldResult<Option<Products>> {
         let product_default = Products::default();
         product_default.create(ctx, new_product)
     }
 
-    fn update_product(ctx: &Ctx, id: String, new_product: UpdateProduct) -> FieldResult<Products> {
+    fn update_product(
+        ctx: &Ctx,
+        id: String,
+        new_product: UpdateProduct,
+    ) -> FieldResult<Option<Products>> {
         let product_default = Products::default();
         product_default.update(ctx, id, new_product)
     }
 
-    fn delete_product(ctx: &Ctx, id: String) -> FieldResult<Products> {
+    fn delete_product(ctx: &Ctx, id: String) -> FieldResult<Option<Products>> {
         let product_default = Products::default();
         product_default.delete(ctx, id)
     }
@@ -62,7 +66,7 @@ impl MutationRoot {
     fn create_product_review(
         ctx: &Ctx,
         new_review: NewProductReview,
-    ) -> FieldResult<ProductReview> {
+    ) -> FieldResult<Option<ProductReview>> {
         let review_default = ProductReview::default();
         review_default.create(ctx, new_review)
     }
@@ -71,17 +75,20 @@ impl MutationRoot {
         ctx: &Ctx,
         id: String,
         updated_review: UpdateProductReview,
-    ) -> FieldResult<ProductReview> {
+    ) -> FieldResult<Option<ProductReview>> {
         let review_default = ProductReview::default();
         review_default.update(ctx, id, updated_review)
     }
 
-    fn delete_product_review(ctx: &Ctx, id: String) -> FieldResult<ProductReview> {
+    fn delete_product_review(ctx: &Ctx, id: String) -> FieldResult<Option<ProductReview>> {
         let review_default = ProductReview::default();
         review_default.delete(ctx, id)
     }
 
-    fn create_product_price(ctx: &Ctx, new_price: NewProductPrice) -> FieldResult<ProductPrice> {
+    fn create_product_price(
+        ctx: &Ctx,
+        new_price: NewProductPrice,
+    ) -> FieldResult<Option<ProductPrice>> {
         let price_default = ProductPrice::default();
         price_default.create(ctx, new_price)
     }
@@ -90,16 +97,17 @@ impl MutationRoot {
         ctx: &Ctx,
         id: String,
         updated_price: UpdateProductPrice,
-    ) -> FieldResult<ProductPrice> {
+    ) -> FieldResult<Option<ProductPrice>> {
         let price_default = ProductPrice::default();
         price_default.update(ctx, id, updated_price)
     }
-    fn delete_product_price(ctx: &Ctx, id: String) -> FieldResult<ProductPrice> {
+
+    fn delete_product_price(ctx: &Ctx, id: String) -> FieldResult<Option<ProductPrice>> {
         let price_default = ProductPrice::default();
         price_default.delete(ctx, id)
     }
 
-    fn create_address(ctx: &Ctx, new_address: NewAddress) -> FieldResult<Addresses> {
+    fn create_address(ctx: &Ctx, new_address: NewAddress) -> FieldResult<Option<Addresses>> {
         let default = Addresses::default();
         default.create(ctx, new_address)
     }
@@ -108,27 +116,27 @@ impl MutationRoot {
         ctx: &Ctx,
         id: String,
         updated_address: UpdateAddress,
-    ) -> FieldResult<Addresses> {
+    ) -> FieldResult<Option<Addresses>> {
         let default = Addresses::default();
         default.update(ctx, id, updated_address)
     }
 
-    fn delete_address(ctx: &Ctx, id: String) -> FieldResult<Addresses> {
+    fn delete_address(ctx: &Ctx, id: String) -> FieldResult<Option<Addresses>> {
         let default = Addresses::default();
         default.delete(ctx, id)
     }
 
-    fn create_cart(ctx: &Ctx, new_cart: CartInput) -> FieldResult<Cart> {
+    fn create_cart(ctx: &Ctx, new_cart: CartInput) -> FieldResult<Option<Cart>> {
         let default = Cart::default();
         default.create(ctx, new_cart)
     }
 
-    fn update_cart(ctx: &Ctx, id: String, input: CartUpdateInput) -> FieldResult<Cart> {
+    fn update_cart(ctx: &Ctx, id: String, input: CartUpdateInput) -> FieldResult<Option<Cart>> {
         let default = Cart::default();
         default.update(ctx, id, input)
     }
 
-    fn delete_cart(ctx: &Ctx, id: String) -> FieldResult<Cart> {
+    fn delete_cart(ctx: &Ctx, id: String) -> FieldResult<Option<Cart>> {
         let default = Cart::default();
         default.delete(ctx, id)
     }
