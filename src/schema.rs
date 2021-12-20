@@ -52,12 +52,9 @@ table! {
 }
 
 table! {
-    customer_address (date_from) {
+    customer_address (user_id) {
         user_id -> Varchar,
-        address_id -> Varchar,
-        date_from -> Timestamp,
-        date_to -> Timestamp,
-        address_type -> Varchar,
+        address_id -> Array<Text>,
     }
 }
 
@@ -190,7 +187,6 @@ table! {
 joinable!(cart -> users (user_id));
 joinable!(cart_items -> cart (cart_id));
 joinable!(cart_items -> products (product_id));
-joinable!(customer_address -> address (address_id));
 joinable!(customer_address -> users (user_id));
 joinable!(iorder -> users (user_id));
 joinable!(order_items -> iorder (order_id));

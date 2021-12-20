@@ -122,8 +122,5 @@ pub struct NewCustomerAddressInput {
 #[table_name = "customer_address"]
 pub struct NewCustomerAddress {
     pub user_id: String,
-    pub address_id: String,
-    pub date_from: NaiveDateTime,
-    pub date_to: NaiveDateTime,
-    pub address_type: String,
+    pub address_id: Vec<String>,
 }

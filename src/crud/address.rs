@@ -69,15 +69,15 @@ impl CO for Addresses {
 impl Default for Addresses {
     fn default() -> Self {
         Self {
-            address_id: String::from(""),
-            line_1: String::from(""),
-            line_2: Some(String::from("")),
-            line_3: Some(String::from("")),
-            city: String::from(""),
-            zip_code: 0,
-            state_province: String::from(""),
-            country: String::from(""),
-            other_details: Some(String::from("")),
+            address_id: String::default(),
+            line_1: String::default(),
+            line_2: Some(String::default()),
+            line_3: Some(String::default()),
+            city: String::default(),
+            zip_code: i32::default(),
+            state_province: String::default(),
+            country: String::default(),
+            other_details: Some(String::default()),
         }
     }
 }

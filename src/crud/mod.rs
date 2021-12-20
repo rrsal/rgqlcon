@@ -3,6 +3,7 @@ pub mod base;
 pub mod cart;
 pub mod cart_items;
 pub mod category;
+pub mod customer_address;
 pub mod product;
 pub mod product_category;
 pub mod product_price;
