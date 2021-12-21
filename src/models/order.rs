@@ -34,7 +34,7 @@ pub struct NewOrder {
 #[derive(GraphQLInputObject, Debug, Clone, AsChangeset)]
 #[graphql(description = "Order Update")]
 #[table_name = "iorder"]
-pub struct OrderUpdate {
+pub struct UpdateOrder {
     pub user_id: Option<String>,
     pub session_id: Option<String>,
     pub token: Option<String>,
@@ -47,10 +47,10 @@ pub struct OrderUpdate {
 }
 
 impl Order {
-    pub fn new(order_id: String, user_id: String, input: NewOrder) -> Self {
+    pub fn new(order_id: String, input: NewOrder) -> Self {
         Self {
             order_id,
-            user_id,
+            user_id: input.user_id,
             session_id: input.session_id,
             token: input.token,
             status: input.status,

@@ -18,7 +18,7 @@ pub struct NewProductTag {
 #[derive(Debug, GraphQLInputObject, AsChangeset)]
 #[table_name = "product_tag"]
 #[graphql(description = "Update Tag")]
-pub struct UpdatreProductTag {
+pub struct UpdateProductTag {
     pub tag_id: Option<String>,
     pub product_id: Option<String>,
 }

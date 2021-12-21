@@ -46,9 +46,9 @@ pub struct UpdateOrderItem {
 impl OrderItem {
     pub fn new(
         item_id: String,
-        input: NewOrderItem,
         created_at: NaiveDateTime,
         updated_at: NaiveDateTime,
+        input: NewOrderItem,
     ) -> Self {
         Self {
             item_id,
