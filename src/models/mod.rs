@@ -9,4 +9,7 @@ pub mod product;
 pub mod product_category;
 pub mod product_price;
 pub mod product_review;
+pub mod product_tag;
+pub mod tag;
+pub mod transaction;
 pub mod user;
