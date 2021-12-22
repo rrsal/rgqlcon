@@ -2,7 +2,8 @@ use crate::crud::base::CO;
 use crate::crud::user;
 use crate::gql::root::Ctx;
 use crate::models::address::Addresses;
-use crate::models::cart::Cart;
+use crate::models::cart::{Cart, CartOutput};
+use crate::models::cart_item::CartItem;
 use crate::models::category::Categories;
 use crate::models::product::Products;
 use crate::models::product_price::ProductPrice;
@@ -71,9 +72,22 @@ impl QueryRoot {
         default.by_id(ctx, id)
     }
 
-    fn cart(ctx: &Ctx, id: String) -> FieldResult<Option<Cart>> {
-        let default = Cart::default();
-        default.by_id(ctx, id)
+    fn cart(ctx: &Ctx, id: String) -> FieldResult<Option<CartOutput>> {
+        let cart = Cart::default().by_id(ctx, id);
+        let mut items: Vec<CartItem> = Vec::new();
+        let mut cart_output = None;
+        if let Ok(Some(result)) = cart {
+            let item_id_list = result.clone().cart_items.unwrap();
+            for id in item_id_list {
+                println!("{}", id);
+                let cart_item = CartItem::default().by_id(ctx, id);
+                if let Ok(Some(item)) = cart_item {
+                    items.push(item);
+                }
+            }
+            cart_output = Some(CartOutput::new(result, items));
+        };
+        Ok(cart_output)
     }
 
     fn carts(ctx: &Ctx) -> Vec<Cart> {

@@ -31,7 +31,6 @@ table! {
     cart_items (item_id) {
         item_id -> Varchar,
         product_id -> Varchar,
-        cart_id -> Varchar,
         sku -> Nullable<Varchar>,
         price -> Nullable<Float8>,
         discount -> Nullable<Float8>,
@@ -185,7 +184,6 @@ table! {
 }
 
 joinable!(cart -> users (user_id));
-joinable!(cart_items -> cart (cart_id));
 joinable!(cart_items -> products (product_id));
 joinable!(customer_address -> users (user_id));
 joinable!(iorder -> users (user_id));

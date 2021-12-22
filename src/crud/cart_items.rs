@@ -1,4 +1,4 @@
-use crate::crud::base::CO;
+se crate::crud::base::CO;
 use crate::gql::root::Ctx;
 use crate::models::cart_item::{CartItem, NewCartItem, UpdateCartItem};
 use diesel::prelude::*;
@@ -22,10 +22,17 @@ impl CO for CartItem {
     fn by_id(&self, ctx: &Ctx, id: String) -> Self::Get {
         use crate::schema::cart_items::dsl::*;
         let connection = ctx.db.get().unwrap();
-        let result = cart_items
-            .filter(item_id.eq(id))
-            .first::<Self>(&connection)?;
-        Ok(Some(result))
+        let result = cart_items.filter(item_id.eq(id)).first::<Self>(&connection);
+        match result {
+            Ok(t) => {
+                let x = Ok(Some(t));
+                x
+            }
+            Err(e) => FieldResult::Err(juniper::FieldError::new(
+                format!("{}", e),
+                graphql_value!({"code":"INTERNAL_SERVER_ERROR"}),
+            )),
+        }
     }
 
     fn create(&self, ctx: &Ctx, new_data: Self::New) -> Self::Get {
@@ -72,7 +79,6 @@ impl Default for CartItem {
         Self {
             item_id: String::default(),
             product_id: String::default(),
-            cart_id: String::default(),
             sku: Some(String::default()),
             price: Some(0.0),
             discount: Some(0.0),

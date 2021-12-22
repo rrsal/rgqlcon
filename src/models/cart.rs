@@ -1,8 +1,9 @@
+use crate::models::cart_item::CartItem;
 use crate::schema::*;
 use chrono::NaiveDateTime;
 use juniper::{GraphQLInputObject, GraphQLObject};
 
-#[derive(Debug, Queryable, GraphQLObject, Insertable)]
+#[derive(Debug, Queryable, GraphQLObject, Insertable, Clone)]
 #[table_name = "cart"]
 pub struct Cart {
     pub cart_id: String,
@@ -15,6 +16,20 @@ pub struct Cart {
     pub total_price: Option<f64>,
     pub total_items: Option<f64>,
     pub cart_items: Option<Vec<String>>,
+}
+
+#[derive(Debug, GraphQLObject)]
+pub struct CartOutput {
+    pub cart_id: String,
+    pub user_id: String,
+    pub session_id: Option<String>,
+    pub token: Option<String>,
+    pub status: Option<String>,
+    pub created_at: NaiveDateTime,
+    pub updated_at: NaiveDateTime,
+    pub total_price: Option<f64>,
+    pub total_items: Option<f64>,
+    pub cart_items: Vec<CartItem>,
 }
 
 #[derive(Debug, GraphQLInputObject, Clone)]
@@ -36,7 +51,7 @@ pub struct CartInput {
     pub cart_items: Option<Vec<Items>>,
 }
 
-#[derive(Debug, GraphQLInputObject, AsChangeset)]
+#[derive(Debug, GraphQLInputObject, AsChangeset, Clone)]
 #[graphql(description = "Cart Update Input")]
 #[table_name = "cart"]
 pub struct CartUpdateInput {
@@ -49,6 +64,23 @@ pub struct CartUpdateInput {
     pub total_price: Option<f64>,
     pub total_items: Option<f64>,
     pub cart_items: Option<Vec<String>>,
+}
+
+impl CartOutput {
+    pub fn new(cart: Cart, items: Vec<CartItem>) -> Self {
+        Self {
+            cart_id: cart.cart_id,
+            user_id: cart.user_id,
+            session_id: cart.session_id,
+            token: cart.token,
+            status: cart.status,
+            created_at: cart.created_at,
+            updated_at: cart.updated_at,
+            total_price: cart.total_price,
+            total_items: cart.total_items,
+            cart_items: items,
+        }
+    }
 }
 
 impl Cart {

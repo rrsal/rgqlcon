@@ -1,6 +1,7 @@
 use crate::crud::base::{get_current_date, CO};
 use crate::gql::root::Ctx;
 use crate::models::cart::{Cart, CartInput, CartUpdateInput};
+use crate::models::cart_item::{CartItem, NewCartItem};
 use crate::models::product::Products;
 use chrono::NaiveDate;
 use diesel::prelude::*;
@@ -37,11 +38,25 @@ impl CO for Cart {
         let cis = input.cart_items.clone().unwrap();
         let mut products = Vec::new();
         for item in cis {
-            let default = Products::default();
-            let product = default.by_id(ctx, item.id.clone()).unwrap();
-            tot_price += product.unwrap().price * item.quantity;
-            tot_qty += item.quantity;
-            products.push(item.id);
+            let product = Products::default().by_id(ctx, item.id.clone());
+            if let Ok(Some(product_data)) = product {
+                let new_item = NewCartItem {
+                    product_id: item.id.clone(),
+                    sku: Some(product_data.sku),
+                    price: Some(product_data.price * item.quantity),
+                    discount: Some(product_data.discount),
+                    quantity: Some(item.quantity),
+                    measure: None,
+                    active: Some(1),
+                };
+                if let Ok(Some(item_id)) = CartItem::default().create(ctx, new_item) {
+                    tot_price += item_id.price.unwrap();
+                    tot_qty += item_id.quantity.unwrap();
+                    products.push(item_id.item_id);
+                }
+            } else {
+                print!("Error occured");
+            }
         }
 
         let new = Self::new(

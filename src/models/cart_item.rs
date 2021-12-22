@@ -5,7 +5,6 @@ use juniper::{GraphQLInputObject, GraphQLObject};
 #[table_name = "cart_items"]
 pub struct CartItem {
     pub item_id: String,
-    pub cart_id: String,
     pub product_id: String,
     pub sku: Option<String>,
     pub price: Option<f64>,
@@ -18,8 +17,6 @@ pub struct CartItem {
 #[derive(Debug, GraphQLInputObject)]
 #[graphql(description = "Input for creating a new cart item")]
 pub struct NewCartItem {
-    pub item_id: String,
-    pub cart_id: String,
     pub product_id: String,
     pub sku: Option<String>,
     pub price: Option<f64>,
@@ -34,7 +31,6 @@ pub struct NewCartItem {
 #[table_name = "cart_items"]
 pub struct UpdateCartItem {
     pub item_id: Option<String>,
-    pub cart_id: Option<String>,
     pub product_id: Option<String>,
     pub sku: Option<String>,
     pub price: Option<f64>,
@@ -48,7 +44,6 @@ impl CartItem {
     pub fn new(id: String, new_cart_item: NewCartItem) -> Self {
         Self {
             item_id: id,
-            cart_id: new_cart_item.cart_id,
             product_id: new_cart_item.product_id,
             sku: new_cart_item.sku,
             price: new_cart_item.price,
