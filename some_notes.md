@@ -15,7 +15,7 @@ diesel setup
 ```
 
 #### Build project & run
-
+- RUN: ```cargo run```
 
 
 #### Adding new schema using diesel
